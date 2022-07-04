@@ -4,7 +4,7 @@ export default function List() {
   return (
     <div>
         
-        <p>List</p>
+        <p>List of tasks</p>
         <p></p>
         </div>
   )
