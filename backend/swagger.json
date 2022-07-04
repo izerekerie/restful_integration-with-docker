@@ -1,0 +1,309 @@
+{
+    "swagger":"2.0",
+    "info":{
+        "version":"1.0.0",
+        "title":"TODO App CRUD",
+        "description":"Simple todo app project"
+    },
+        "host":"localhost:2000",
+        "basepath":"/",
+        "tags":[ 
+           { "name":"Categories",
+            "description":"Categories API"
+        
+          },
+          {
+            "name":"Tasks",
+            "description":"Tasks API"
+          },
+          {
+            "name":"Users",
+            "description":"Users API"
+          }
+          
+        ],
+        "schemes":["http"],
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "paths":{
+            "/categories":{
+                "get":{
+                    "tags":["Categories"],
+                    "summary":"Get All categories",
+                    "responses":{
+                        "200":{
+                            "description":"OK",
+                            "schema":{
+                                "ref":"#/definitions/Categories"
+                            }
+                        }
+
+                    }
+                }
+            
+               
+            },
+          "/tasks":{
+             "get":{
+                "tags":["Tasks"],
+                "summary":"Get All Tasks",
+              
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "ref":"#/definitions/Task"
+                        }
+                    }
+                }
+             },
+             "post":{
+                "tags":["Tasks"],
+                "summary":"Create task",
+                "parameters":[
+                    {
+                        "name":"Authorization",
+                        "in":"header",
+                    
+                        "descirption":"Aunthication token",
+                        "required":true
+                    },
+                    {
+                    "name":"task",
+                    "in":"body",
+                    "description":"task data",
+                    "schema":{
+                        "type":"object",
+                        "required":["title","category","createdBy"],
+                        "properties":{
+                          "title":{"type":"string"},
+                          "category":{"type":"string"},
+                          "createdBy":{"type":"string"}
+                        }
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "ref":"#/definitions/Task"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT_FOUND"
+                       
+                    }
+                }
+                
+               }
+            
+          },
+          "/tasks/{id}":{
+            "parameters":[
+                {
+                "name":"Authorization",
+                "in":"header",
+                "descirption":"Aunthication token",
+                "required":true
+            },{
+                "name":"id",
+                "in":"path",
+                "type":"string",
+                "required":true
+            }
+            ],
+           "get":{
+            "tags":["Tasks"],
+            "summary":"Get one task",
+            "responses":{
+                "200":{
+                    "description":"OK",
+                    "schema":{
+                        "ref":"#/definitions/Task"
+                    }
+                   },
+                "404":{
+                    "description":"NOT FOUND"
+                }
+
+            }
+           
+           },
+          
+           "delete":{
+            "tags":["Tasks"],
+            "summary":"Delete one task",
+           
+            "responses":{
+                "200":{
+                    "description":"OK",
+                    "schema": {
+                        "type": "object"
+                      }
+                },
+                "404":{
+                    "description":"NOT FOUND"
+                }
+            }
+         },
+         "put":{
+            "tags":["Tasks"],
+            "summary":"Update a task",
+             "parameters":[
+                {
+                    "name":"task",
+                    "in":"body",
+                    "description":"task data",
+                    
+                    "schema":{
+                      "type":"string",
+                      "required":["title","category","category"],
+                      "properties":{
+                        "title":{"type":"string"},
+                        "createdBy":{"type":"string"},
+                        "category":{"type":"string"}
+                      }
+                    }
+                }
+            
+             ],
+             "responses":{
+                "200":{
+                    "description":"OK",
+                    "schema":{
+                        "ref":"#/definitions/Task"
+                    }
+                },
+                "404":{
+                    "description":"NOT FOUND"
+                }
+             }
+         } 
+          },
+         "/users/signin":{
+            "post":{
+                "tags":["Users"],
+                "summary":"Login in",
+                "parameters":[{
+                    "name":"user",
+                    "in":"body",
+                    "description":"User credentials",
+                    "schema":{
+                        "type":"object",
+                        "required":["email","password"],
+                        "properties":{
+                        "email":{
+                            "type":"string"
+                         },
+                         "password":{
+                            "type":"string"
+                         }    
+                    
+                        }
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                                "ref":"#/definitions/User"
+                        }
+                    },
+                    "404":{
+                         "description":"NOT FOUND",
+                         "schema":{
+                            "ref":"#/definitions/User"
+                         }
+                    }
+                }
+
+            }
+         },
+         "/users/signup":{
+            
+            "post":{
+                "tags":["Users"],
+                "summary":"Sign up",
+                "parameters":[{
+                    "name":"user",
+                    "in":"body",
+                    "descirption":"user data",
+                    "schema":{
+                        "type":"object",
+                        "required":["name","email","password"],
+                        
+                            "properties":{
+                                "name":{"type":"string"},
+                                "email":{"type":"string"},
+                                "password":{"type":"string"}
+                            
+                          
+                        }
+
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                       "schema":{
+                        "ref":"#/definitions/User"
+                       }
+                    }
+                }
+            }
+         }
+
+        },
+        "defintions":{
+            "Category":{
+                "required":["id","name","createdBy"],
+                "properties":{
+                    "_id":{
+                        "type":"string",
+                        "uniqueItems":true
+                    },
+                    "name":{
+                        "type":"string" 
+                    },
+                    "createdBy":{
+                        "type":"string"
+                    }
+                }
+            },
+            "Task":{
+             "required":["id","title","category","createdBy"],
+                "properties":{
+                    "_id":{
+                        "type":"string",
+                        "uniqueItems":true
+                    },
+                    "title":{
+                      "type":"string"
+                    },
+                    "category":{
+                        "type":"string"
+                    },
+                    "createdBy":{
+                        "type":"string"
+                    }
+                }
+             
+            },
+            "User":{
+                "required":["id","name","password"],
+                "properties":{
+                   "_id":{
+                    "type":"string","uniqueItems":true
+                   },
+                   "name":{
+                    "type":"string"
+                   },
+                   "password":{
+                    "type":"string"
+                   } 
+                }
+            }
+
+        }
+
+    }

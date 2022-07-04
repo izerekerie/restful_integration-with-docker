@@ -1,0 +1,506 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.4",
+    "title": "Portfolio APIs Documention",
+    "description": "Portfolio APIs Documention",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "patlp--backend.herokuapp.com",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "APIs for users"
+    },
+    {
+      "name": "Articles",
+      "description": "APIs for articles"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/users": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "Authentication token",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User signup",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User to register",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user registered!",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Sign in",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User credentials",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User authenticated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the user",
+          "type": "string"
+        },
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "Authentication token",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user with given ID",
+        "responses": {
+          "200": {
+            "description": "User is found",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user with give ID",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "New values of properties",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user with given ID",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "User is deleted",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/articles": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "Create New Article",
+        "parameters": [
+          {
+            "name": "article",
+            "in": "body",
+            "description": "Article that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "New article created!",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "Get all articles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Article"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the article",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Articles"],
+        "summary": "Get article with given ID",
+        "responses": {
+          "200": {
+            "description": "Article found",
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update article with give ID",
+        "tags": ["Articles"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "article",
+            "in": "body",
+            "description": "New values of properties",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article is updated",
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete article with given ID",
+        "tags": ["Articles"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article is deleted",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/articles/{articleId}/comment": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "Authentication token",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "articleId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the article",
+          "type": "string"
+        },
+        {
+          "name": "comment",
+          "in": "body",
+          "description": "New comment",
+          "schema": {
+            "comment": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "post": {
+        "summary": "Add comment to article with give ID",
+        "tags": ["Articles"],
+        "responses": {
+          "200": {
+            "description": "Comment Recorded",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        }
+      }
+    },
+    "/articles/{articleId}/comments": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "description": "Authentication token",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "articleId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the article",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get comments to article with give ID",
+        "tags": ["Articles"],
+        "responses": {
+          "200": {
+            "description": "Article Comments",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Comment"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/{articleId}/like": {
+      "parameters": [
+        {
+          "name": "articleId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the article",
+          "type": "string"
+        },
+        {
+          "name": "number",
+          "in": "body",
+          "description": "Like Value",
+          "schema": {
+            "name": {
+              "type": "number"
+            }
+          }
+        }
+      ],
+      "post": {
+        "summary": "Add like to article with give ID",
+        "tags": ["Articles"],
+        "responses": {
+          "200": {
+            "description": "Like Recorded",
+            "schema": {
+              "$ref": "#/definitions/Like"
+            }
+          }
+        }
+      }
+    },
+    "/articles/{articleId}/likes": {
+      "parameters": [
+        {
+          "name": "articleId",
+          "in": "path",
+          "required": true,
+          "description": "ID of the article",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get likes to article with give ID",
+        "tags": ["Articles"],
+        "responses": {
+          "200": {
+            "description": "Article likes",
+            "schema": {
+              "$ref": "#/definitions/Like"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": ["name", "email", "password"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "registered_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Article": {
+      "required": ["title", "content", "picture"],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "picture": {
+          "type": "string"
+        },
+        "likes": {
+          "type": "Number"
+        },
+        "comments": {
+          "type": "array"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "required": ["comment", "userId", "articleId"],
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "articleId": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "Like": {
+      "required": ["number", "articleId"],
+      "properties": {
+        "articleId": {
+          "type": "string"
+        },
+        "number": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

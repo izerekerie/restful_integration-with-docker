@@ -1,0 +1,33 @@
+version: "3"
+services:
+  mongo:
+    image: izerekerie/mongodb:latest
+    build: ./
+    ports:
+      - 27017:27017
+
+  backend:
+    image: izerekerie/backend
+    build: ./backend/
+    ports:
+      - "5000:8000"
+    depends_on:
+      - "mongo"
+
+  frontend:
+    image: izerekerie/frontend
+    mem_limit: 128m
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "backend"
+    links:
+      - backend
+
+  nginx:
+    image: izerekerie/nginx
+    build: ./nginx/
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - "80:80"
