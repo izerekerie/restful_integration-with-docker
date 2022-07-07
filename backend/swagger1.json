@@ -1,0 +1,357 @@
+{
+    "swagger":"2.0",
+    "info":{
+        "version":"1.0.0",
+        "title":"VTMS App ",
+        "description":"Vehicle Tracking Management System"
+    },
+        "host":"localhost:5000",
+        "basepath":"/",
+        "tags":[ 
+           { "name":"Vehicles",
+            "description":"Vehicles API"
+        
+          },
+          {
+            "name":"Owners",
+            "description":"Owners API"
+          },
+          {
+            "name":"Users",
+            "description":"Users API"
+          }
+          
+        ],
+        "schemes":["http"],
+        "consumes":["application/json"],
+        "produces":["application/json"],
+        "paths":{
+            "/owners":{
+                "get":{
+                    "tags":["Owners"],
+                    "summary":"Get All owners",
+                    "responses":{
+                        "200":{
+                            "description":"OK",
+                            "schema":{
+                                "ref":"#/definitions/owner"
+                            }
+                        }
+
+                    }
+                }
+            
+               
+            },
+          "/vehicles":{
+             "get":{
+                "tags":["Vehicles"],
+                "summary":"Get All Vehicles",
+              
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "ref":"#/definitions/Vehicle"
+                        }
+                    }
+                }
+             },
+             "post":{
+                "tags":["Vehicles"],
+                "summary":"Create vehicle",
+                "parameters":[
+                    {
+                        "name":"Authorization",
+                        "in":"header",
+                    
+                        "descirption":"Aunthetication token",
+                        "required":true
+                    },
+                    {
+                    "name":"vehicle",
+                    "in":"body",
+                    "description":"vehicle data",
+                    "schema":{
+                        "type":"object",
+                        "required":["model","chasisNumber","price","year","owner","company"],
+                        "properties":{
+                          
+                              "chasisNumber":{
+                                  "type":"string"
+                              },
+                              "price":{
+                                  "type":"number"
+                              },
+                              "year":{
+                                  "type":"string"
+                              },
+                              "company":{
+                                  "type":"string"
+                              },
+                              "model":{
+                                  "type":"string"
+                              }
+                        }
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                            "ref":"#/definitions/Vehicle"
+                        }
+                    },
+                    "404":{
+                        "description":"NOT_FOUND"
+                       
+                    }
+                }
+                
+               }
+            
+          },
+          "/vehicles/{id}":{
+            "parameters":[
+                {
+                "name":"Authorization",
+                "in":"header",
+                "descirption":"Aunthication token",
+                "required":true
+            },{
+                "name":"id",
+                "in":"path",
+                "type":"string",
+                "required":true
+            }
+            ],
+           "get":{
+            "tags":["Vehicles"],
+            "summary":"Get one vehicle",
+            "responses":{
+                "200":{
+                    "description":"OK",
+                    "schema":{
+                        "ref":"#/definitions/Vehicle"
+                    }
+                   },
+                "404":{
+                    "description":"NOT FOUND"
+                }
+
+            }
+           
+           },
+          
+           "delete":{
+            "tags":["Vehicles"],
+            "summary":"Delete one vehicle",
+           
+            "responses":{
+                "200":{
+                    "description":"OK",
+                    "schema": {
+                        "type": "object"
+                      }
+                },
+                "404":{
+                    "description":"NOT FOUND"
+                }
+            }
+         },
+         "put":{
+            "tags":["Vehicles"],
+            "summary":"Update a vehicle",
+             "parameters":[
+                {
+                    "name":"vehicle",
+                    "in":"body",
+                    "description":"vehicle data",
+                    
+                    "schema":{
+                      "type":"string",
+                      "required":["model","chasisNumber","price","year","owner","company"],
+                      "properties":{
+                        
+                            "chasisNumber":{
+                                "type":"string"
+                            },
+                            "price":{
+                                "type":"number"
+                            },
+                            "year":{
+                                "type":"string"
+                            },
+                            "company":{
+                                "type":"string"
+                            },
+                            "model":{
+                                "type":"string"
+                            }
+                      }
+                    }
+                }
+            
+             ],
+             "responses":{
+                "200":{
+                    "description":"OK",
+                    "schema":{
+                        "ref":"#/definitions/Vehicle"
+                    }
+                },
+                "404":{
+                    "description":"NOT FOUND"
+                }
+             }
+         } 
+          },
+         "/users/signin":{
+            "post":{
+                "tags":["Users"],
+                "summary":"Login in",
+                "parameters":[{
+                    "name":"user",
+                    "in":"body",
+                    "description":"User credentials",
+                    "schema":{
+                        "type":"object",
+                        "required":["email","password"],
+                        "properties":{
+                        "email":{
+                            "type":"string"
+                         },
+                         "password":{
+                            "type":"string"
+                         }    
+                    
+                        }
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "schema":{
+                                "ref":"#/definitions/User"
+                        }
+                    },
+                    "404":{
+                         "description":"NOT FOUND",
+                         "schema":{
+                            "ref":"#/definitions/User"
+                         }
+                    }
+                }
+
+            }
+         },
+         "/users/signup":{
+            
+            "post":{
+                "tags":["Users"],
+                "summary":"Sign up",
+                "parameters":[{
+                    "name":"user",
+                    "in":"body",
+                    "descirption":"user data",
+                    "schema":{
+                        "type":"object",
+                        "required":["name","email","password","national_id"],
+                        
+                            "properties":{
+                                "names":{"type":"string"},
+                                "email":{"type":"string"},
+                                "password":{"type":"string"},
+                                "national_id":{"type":"string"}
+                            
+                          
+                        }
+
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                       "schema":{
+                        "ref":"#/definitions/User"
+                       }
+                    }
+                }
+            }
+         }
+
+        },
+        "defintions":{
+            "Owner":{
+                "required":["_id","names","national_id","email"],
+                "properties":{
+                    "_id":{
+                        "type":"string",
+                        "uniqueItems":true
+                    },
+                    "names":{
+                        "type":"string" 
+                    },
+                    "national_id":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    }
+                }
+            },
+            "Vehicle":{
+             "required":["id","model","vehiclePlateNumber","chasisNumber","price","year","createdAt","owner","company"],
+                "properties":{
+                    "_id":{
+                        "type":"string",
+                        "uniqueItems":true
+                    },
+                    "vehiclePlateNumber":{
+                      "type":"string"
+                    },
+                    "chasisNumber":{
+                        "type":"string"
+                    },
+                    "price":{
+                        "type":"number"
+                    },
+                    "year":{
+                        "type":"string"
+                    },
+                    "company":{
+                        "type":"string"
+                    },
+                    "model":{
+                        "type":"string"
+                    },
+                    "owner":{
+                        "type":"string"
+                    }
+                }
+             
+            },
+            "User":{
+                "required":["id","name","email","password"],
+                "properties":{
+                   "_id":{
+                    "type":"string","uniqueItems":true
+                   },
+                   "names":{
+                    "type":"string"
+                   },
+                   "email":{
+                    "type":"string"
+                   },
+                   "national_id":{
+                    "type":"string"
+                   },
+                   "password":{
+                    "type":"string"
+                   } 
+                }
+            }
+
+        }
+
+    }
