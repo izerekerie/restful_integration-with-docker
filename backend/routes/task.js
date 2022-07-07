@@ -5,7 +5,7 @@ const router=express.Router();
 import {auth} from '../middleware/auth'
 router.get('/',getTasks);
 router.get('/:id',auth,getTask);
-router.post('/',createTask);
+router.post('/',auth,createTask);
 router.put('/:id',auth,updateTask);
 router.delete('/:id',auth,deleteTask);
 router.get('/search/:query',auth,getTaskSearch);

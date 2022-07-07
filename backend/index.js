@@ -4,9 +4,9 @@ import dotenv  from 'dotenv'
 import taskRoutes from './routes/task.js'
 import userRoutes from './routes/user.js'
 import categoryRoutes from './routes/category.js'
-import swaggerJsDoc from 'swagger-jsdoc'
+
 import swaggerUI from 'swagger-ui-express'
-import swaggerDocument from './swagger.json' assert {type:'json'};
+import swaggerDocument from './swagger1.json' assert {type:'json'};
 import  cors from 'cors';
 const app=express();
 dotenv.config();
@@ -36,7 +36,6 @@ app.use(cors());
 // const swaggerDocs=swaggerJsDoc(swaggerOptions);
 // console.log(swaggerDocs)
 app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerDocument))
-
 app.get('/',(req,res)=>{
     res.send('Welcome to our app')
 })
